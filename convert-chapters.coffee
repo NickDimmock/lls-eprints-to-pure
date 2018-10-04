@@ -1,11 +1,13 @@
 # Load individual import modules:
 lib = require('require-dir')('./lib')
+emailToID = require './src/email-lookup.json'
 
 # Input file
 jsonIn = require './' + process.argv[2]
 
 # Item specific variables (no import namespace for chapters):
 config =
+    emailToID: emailToID
     type: 'chapterInBook'
     subType: 'chapter'
     root: 'publications'
