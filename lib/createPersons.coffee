@@ -48,11 +48,19 @@ module.exports = (config, eprint) ->
     # creators and editors are distinct in eprints but are both persons
     # entires in Pure. Easiest to just run through each in turn.
 
+    # config.emailToID lets us map the author email value from eprints
+    # to their uni ID (also the SourceID of their person record in Pure).
+    # This is added as the 'id' attribute on the person tag.
+    # If the value isn't found, we can just use an empty string as the id.
+
     if eprint.creators?
         eprint.creators.forEach (creator) ->
+            personID = config.emailToID[creator.id] or ''
             author =
                 "#{config.importPrefix}role": 'author'
                 "#{config.importPrefix}person":
+                    '_attributes':
+                        id: personID
                     "#{config.importPrefix}firstName": creator.name.given
                     "#{config.importPrefix}lastName": creator.name.family
             if creator.id? and creator.id.includes 'northampton.ac.uk'

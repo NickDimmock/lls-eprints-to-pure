@@ -4,7 +4,10 @@ lib = require('require-dir')('./lib')
 # Input file
 jsonIn = require './' + process.argv[2]
 
+emailToID = require './src/email-lookup.json'
+
 config =
+    emailToID: emailToID
     type: 'contributionToJournal'
     subType: 'article'
     root: 'v1:publications'
