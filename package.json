@@ -1,0 +1,17 @@
+{
+  "name": "eprints-pure-import",
+  "version": "1.0.0",
+  "description": "Convert repository items from Eprints JSON to Pure XML",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "nick.dimmock@northampton.ac.uk",
+  "license": "ISC",
+  "dependencies": {
+    "moment": "^2.22.2",
+    "require-dir": "^1.0.0",
+    "xml-escape": "^1.1.0",
+    "xml-js": "^1.6.7"
+  }
+}
