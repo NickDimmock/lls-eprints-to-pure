@@ -4,7 +4,8 @@ Example output:
       <v3:text lang="en" country="GB">The title</v3:text>
     </v1:title>
 
-TODO: Using defaults for lang & country at the moment...
+Languange info is not captured meaningfully in Eprints at the item level, so
+this script defaults to English / GB
 ###
 
 module.exports = (config, eprint) ->
