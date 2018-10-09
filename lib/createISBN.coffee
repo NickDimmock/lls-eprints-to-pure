@@ -1,4 +1,4 @@
-# Uses simple-isbn module to parse and validate isbn before sending data back
+# Uses simple-isbn module to parse and validate isbn before sending data back.
 
 ISBN = require('simple-isbn').isbn
 
