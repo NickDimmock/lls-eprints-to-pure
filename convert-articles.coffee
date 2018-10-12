@@ -19,6 +19,12 @@ config =
 outputs = []
 
 jsonIn.forEach (eprint) ->
+
+    console.log "Processing #{eprint.eprintid}..."
+
+    if not lib.validator(config, eprint)
+        console.log "Problem with #{eprint.eprintid}!"
+        return
     
     item =
         '_attributes':
