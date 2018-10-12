@@ -23,6 +23,6 @@ module.exports = (eprint) ->
                 if doc.content?
                     validDocs.push doc
                 else
-                    console.log "#{doc.docid} is valid but has no content value."
+                    console.log "File #{doc.docid} is valid but has no content value."
 
     return validDocs
