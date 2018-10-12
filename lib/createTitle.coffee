@@ -17,7 +17,9 @@ module.exports = (config, eprint) ->
     # This doesn't happen with the displayed title in Pure, but does in the
     # text shown in the editing form.
 
-    title = eprint.title.replace /\r\n/g, ' '
+    title = eprint.title ? "[untitled]"
+
+    title = title.replace /\r\n/g, ' '
 
     return
         "#{config.importPrefix}title":
