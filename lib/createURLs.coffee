@@ -2,10 +2,10 @@
 module.exports = (config, eprint) ->
     urlsTag = config.importPrefix + 'urls'
     urlTag = config.importPrefix + 'url'
-    urls = []
+    urlList = []
     eprint.related_url.forEach (urlObj) ->
-        urls.push
-            "#{config.importPrefix}url":
-                "#{config.importPrefix}url": urlObj.url
+        urlList.push
+            "#{config.importPrefix}url": urlObj.url
     return
-        "#{config.importPrefix}urls": urls
+        "#{config.importPrefix}urls":
+            "#{config.importPrefix}url": urlList
