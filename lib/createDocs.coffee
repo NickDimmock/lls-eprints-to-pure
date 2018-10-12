@@ -2,10 +2,16 @@ mapVersion = require './mapVersion'
 getCCLink = require './getCCLink'
 moment = require 'moment'
 
+# Map eprints version to hoa version:
+hoaVersions =
+    'accepted': 'AV'
+    'published': 'VoR'
+
 module.exports = (config, eprint, docs) ->
 
     pureVersions = {}
 
+    ## Get DOI links out of the way first...
     if eprint.doi?
         # Make sure it's a DOI and not a DOI link...
         doi = eprint.doi.replace /^http.*org\//, ''
@@ -13,20 +19,32 @@ module.exports = (config, eprint, docs) ->
             "#{config.importPrefix}publicAccess": 'unknown',
             "#{config.importPrefix}doi": doi
 
+    # Files are more complicated.
     if docs
-        links = []
+        files = []
         docs.forEach (doc) ->
+            ###
+                File method for depositDate / accessDate
+                hoa_version_fcd (AM, VoR) - version to match for hoa fcd data
+                hoa_date_fcd = deposit date of matching file
+                hoa_date_foa = date of first open access
 
+                If file is accepted / published, check hoa_version_fcd for match
+                    AM = accepted, VoR = published
+                If matched, add hoa_date_fcd to this file
+                If hoa_date_foa exists, also add that to the same file
+            ###
+                    
             # We need to confirm a doc.content value to translate to version in Pure,
             # or the import will fail.
             # if (doc.content) {
-                linkContent = {
+                fileContent = {
                         ["#{config.importPrefix}version"]: mapVersion(doc.content)
                 }
                 # Licences need a licence and a URL - needs a lookup from the cc.js module
                 if doc.license? and getCCLink doc.license
-                    linkContent["#{config.importPrefix}licence"] = doc.license
-                    linkContent["#{config.importPrefix}otherLicenceUrl"] = getCCLink doc.license
+                    fileContent["#{config.importPrefix}licence"] = doc.license
+                    fileContent["#{config.importPrefix}otherLicenceUrl"] = getCCLink doc.license
 
                 ###
                 Generate publicAccess value using doc.security
@@ -48,14 +66,36 @@ module.exports = (config, eprint, docs) ->
                         pureEmbargoEnd = embargoEnd.format 'DD-MM-YYYY'
                     else
                         pubacc = "closed"
-                linkContent["#{config.importPrefix}publicAccess"] = pubacc
+                fileContent["#{config.importPrefix}publicAccess"] = pubacc
                 if pureEmbargoEnd?
-                    linkContent["#{config.importPrefix}embargoEndDate"] = pureEmbargoEnd
-                linkContent["#{config.importPrefix}link"] = doc.uri
-                links.push linkContent
+                    fileContent["#{config.importPrefix}embargoEndDate"] = pureEmbargoEnd
+                fileContent["#{config.importPrefix}title"] = doc.filename
+                fileContent["#{config.importPrefix}file"] =
+                    "#{config.importPrefix}filename": doc.main
+                    "#{config.importPrefix}fileLocation": doc.uri
+                    "#{config.importPrefix}mimetype": doc.mime_type
+                    "#{config.importPrefix}filesize": doc.files[0].filesize
+                if eprint.hoa_version_fcd? and Object.keys(hoaVersions).includes(doc.content)
+                #if false
+                    if eprint.hoa_version_fcd is hoaVersions[doc.content]
+                        fileContent["#{config.importPrefix}file"] = {
+                            ...fileContent["#{config.importPrefix}file"]
+                            ...{
+                                "#{config.importPrefix}depositDate": eprint.hoa_date_fcd
+                            }
+                        }
+                        if eprint.hoa_date_foa?
+                            fileContent["#{config.importPrefix}file"] = {
+                                ...fileContent["#{config.importPrefix}file"]
+                                ...{
+                                  "#{config.importPrefix}accessDate": eprint.hoa_date_foa
+                                }
+                           }
+                #fileContent["#{config.importPrefix}link"] = doc.uri
+                files.push fileContent
 
-        if links.length
-            pureVersions["#{config.importPrefix}electronicVersionLink"] = links
+        if files.length
+            pureVersions["#{config.importPrefix}electronicVersionFile"] = files
 
     return
         "#{config.importPrefix}electronicVersions": pureVersions

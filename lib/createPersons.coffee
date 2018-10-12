@@ -33,16 +33,7 @@ Output example:
 ###
 
 module.exports = (config, eprint) ->
-    # personsTag = config.importPrefix + 'persons'
-    # authorTag = config.importPrefix + 'author'
-    # roleTag = config.importPrefix + 'role'
-    # personTag = config.importPrefix + 'person'
-    # firstNameTag = config.importPrefix + 'firstName'
-    # lastNameTag = config.importPrefix + 'lastName'
-    # orgsTag = config.importPrefix + 'organisations'
-    # orgTag = config.importPrefix + 'organisation'
-    # nameTag = config.importPrefix + 'name'
-    # textTag = config.commonsPrefix + 'text'
+
     authorsData = []
 
     # creators and editors are distinct in eprints but are both persons
