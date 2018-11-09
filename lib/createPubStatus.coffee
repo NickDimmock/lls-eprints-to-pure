@@ -2,16 +2,18 @@ moment = require 'moment'
 mapDateType = require  './mapDateType'
 
 module.exports = (config, eprint) ->
-
     statuses = []
 
     eprint.dates.forEach (date) ->
-        # Need to cast to string because eprints exports single year dates as ints:
-        epDate = moment date.date.toString()
+        # Cast date to string, because Eprints serves dates that are just years as ints.
+        # Use js date initially, to cope better with anomalous dates (e.g. just a year).
+        jsDate = new Date(date.date.toString())
+        #epDate = jsDate.toISOString().substring(0,10);
+        epDate = moment jsDate
         statusType = mapDateType date.date_type
         if epDate.isValid() and statusType
             ps =
-                "#{config.importPrefix}statusType": mapDateType date.date_type
+                "#{config.importPrefix}statusType": statusType
                 "#{config.importPrefix}date":
                     "#{config.commonsPrefix}day": epDate.format 'DD'
                     "#{config.commonsPrefix}month": epDate.format 'MM'

@@ -8,8 +8,8 @@ jsonIn = require './' + process.argv[2]
 #emailToID = require './src/email-lookup.json'
 
 localConfig =
-        type: 'contributionToJournal'
-        subType: 'article'
+        type: 'contributionToConference'
+        #subType: 'article'
         root: 'v1:publications'
         importNamespace: 'v1.publication-import.base-uk.pure.atira.dk'
         importPrefix: 'v1:'
@@ -31,10 +31,19 @@ jsonIn.forEach (eprint) ->
         console.log "Problem with #{eprint.eprintid}!"
         return
     
+    if eprint.pres_type
+        subType = lib.mapPresType(eprint.pres_type)
+        if not subType
+            console.log "Skipping #{eprint.eprintid} - type #{eprint.pres_type} not supported."
+            return
+    else
+        console.log "Skipping #{eprint.eprintid} - no pres_type value."
+        return
+
     item =
         '_attributes':
             id: eprint.eprintid
-            subType: config.subType
+            subType: subType
 
     item = {...item, ...lib.createRefereed(config, eprint)}
     item = {...item, ...lib.createPubStatus(config, eprint)}
@@ -52,13 +61,7 @@ jsonIn.forEach (eprint) ->
     if docs.length
         item = {...item, ...lib.createDocs(config, eprint, docs)}
     item = {...item, ...lib.createVisibility(config, eprint)}
-    if eprint.pages?
-        item = {...item, ...lib.createPages(config, eprint)}
-    if eprint.number?
-        item = {...item, ...lib.createJournalNumber(config, eprint)}
-    if eprint.volume?
-        item = {...item, ...lib.createJournalVolume(config, eprint)}
-    item = {...item, ...lib.createJournal(config, eprint)}
+    item = {...item, ...lib.createConfEvent(config, eprint)}
     
     outputs.push item
 

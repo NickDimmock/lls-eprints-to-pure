@@ -54,12 +54,13 @@ module.exports = (config, eprint) ->
                         id: personID
                     "#{config.importPrefix}firstName": creator.name.given
                     "#{config.importPrefix}lastName": creator.name.family
-            if creator.id? and creator.id.includes 'northampton.ac.uk'
+            # Commented out pending feedback - is this necessary alongside
+            # organisation authors in createOwner.coffee?
+            ###if creator.id? and creator.id.includes 'northampton.ac.uk'
                 author["#{config.importPrefix}organisations"] =
                     "#{config.importPrefix}organisation":
                         "#{config.importPrefix}name":
-                            "#{config.commonsPrefix}text": 'University of Northampton'
-                #author[roleTag] = 'author'
+                            "#{config.commonsPrefix}text": 'University of Northampton'###
             authorsData.push author
 
     if eprint.editors
@@ -69,11 +70,11 @@ module.exports = (config, eprint) ->
                 "#{config.importPrefix}person":
                     "#{config.importPrefix}firstName": editor.name.given
                     "#{config.importPrefix}lastName": editor.name.family
-            if editor.id? and editor.id.includes 'northampton.ac.uk'
+            ###if editor.id? and editor.id.includes 'northampton.ac.uk'
                 author["#{config.importPrefix}organisations"] =
                         "#{config.importPrefix}organisation":
                             "#{config.importPrefix}name":
-                                "#{config.commonsPrefix}text": 'University of Northampton'
+                                "#{config.commonsPrefix}text": 'University of Northampton'###
             authorsData.push author
         
     return
