@@ -40,7 +40,6 @@ getEventURL = (eprint) ->
     if eprint.related_url
         eprint.related_url.forEach (obj) ->
             if not url and obj.type is "conf"
-                console.log "RU!"
                 url = obj.url
     return url
 
