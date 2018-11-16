@@ -70,11 +70,21 @@ module.exports = (config, eprint, docs) ->
                 if pureEmbargoEnd?
                     fileContent["#{config.importPrefix}embargoEndDate"] = pureEmbargoEnd
                 fileContent["#{config.importPrefix}title"] = doc.filename
+                # Add eprintid/docid as file id (e.g. <v1:file id="173778/224584">)
+                # TODO: add following (after filesize?):
+                # <v1:externalRepositoryState>STORED</v1:externalRepositoryState>
+                # <!-- Storage name defined in Pure -->
+                # <v1:source>eprints name</v1:source>
                 fileContent["#{config.importPrefix}file"] =
+                    "_attributes": {
+                        id: "#{doc.eprintid}/#{doc.docid}"
+                    }
                     "#{config.importPrefix}filename": doc.main
                     "#{config.importPrefix}fileLocation": doc.uri
                     "#{config.importPrefix}mimetype": doc.mime_type
                     "#{config.importPrefix}filesize": doc.files[0].filesize
+                    "#{config.importPrefix}externalRepositoryState": "STORED"
+                    "#{config.importPrefix}source": "nectar"
                 if eprint.hoa_version_fcd? and Object.keys(hoaVersions).includes(doc.content)
                 #if false
                     if eprint.hoa_version_fcd is hoaVersions[doc.content]
