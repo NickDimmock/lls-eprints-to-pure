@@ -5,7 +5,7 @@
         <v1:organisation id="ORG_ID"></v1:organisation>
     </v1:organisations>
 
-    Only requires ID, but ID map to an org unit  in Pure.
+    Only requires ID, but ID maps to an org unit in Pure.
 ###
 
 module.exports = (config, eprint) ->
@@ -18,6 +18,8 @@ module.exports = (config, eprint) ->
                 }
                 "_text": ""
             }
+        else
+            console.log "#{div} not found."
 
     if orgs.length
         return {
@@ -25,3 +27,6 @@ module.exports = (config, eprint) ->
                 "#{config.importPrefix}organisation": orgs
             }
         }
+
+    else
+        console.log "No orgs for item #{eprint.eprintid}."

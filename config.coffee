@@ -2,15 +2,17 @@
 
 module.exports = () ->
     # Org ID whitelist:
-    orgs_file = require "./src/depts.json"
+    orgs_file = require "./src/org_list.json"
     orgWhitelist = []
-    orgs_file.organisations.organisation.forEach (org) ->
-        orgWhitelist.push(org.organisationId)
+    for key, val of orgs_file
+        #orgs_file.organisations.organisation.forEach (org) ->
+        orgWhitelist.push(key)
 
     # Email to ID lookup:
-    emailToID = require './src/email-lookup.json'
+    emailToID = require './src/email_lookup.json'
 
     return {
         orgWhitelist: orgWhitelist
         emailToID: emailToID
+        eprintsStore: "nectar"
     }

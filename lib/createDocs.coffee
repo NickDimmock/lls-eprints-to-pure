@@ -84,7 +84,7 @@ module.exports = (config, eprint, docs) ->
                     "#{config.importPrefix}mimetype": doc.mime_type
                     "#{config.importPrefix}filesize": doc.files[0].filesize
                     "#{config.importPrefix}externalRepositoryState": "STORED"
-                    "#{config.importPrefix}source": "nectar"
+                    "#{config.importPrefix}source": config.eprintsStore
                 if eprint.hoa_version_fcd? and Object.keys(hoaVersions).includes(doc.content)
                 #if false
                     if eprint.hoa_version_fcd is hoaVersions[doc.content]

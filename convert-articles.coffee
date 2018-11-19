@@ -51,6 +51,7 @@ jsonIn.forEach (eprint) ->
     docs = lib.getDocs(eprint)
     if docs.length
         item = {...item, ...lib.createDocs(config, eprint, docs)}
+    item = {...item, ...lib.createStores(config, eprint)}
     item = {...item, ...lib.createVisibility(config, eprint)}
     if eprint.pages?
         item = {...item, ...lib.createPages(config, eprint)}
@@ -63,3 +64,5 @@ jsonIn.forEach (eprint) ->
     outputs.push item
 
 lib.writeFiles config, outputs
+
+#console.log config.orgWhitelist
