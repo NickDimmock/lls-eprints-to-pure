@@ -71,10 +71,6 @@ module.exports = (config, eprint, docs) ->
                     fileContent["#{config.importPrefix}embargoEndDate"] = pureEmbargoEnd
                 fileContent["#{config.importPrefix}title"] = doc.filename
                 # Add eprintid/docid as file id (e.g. <v1:file id="173778/224584">)
-                # TODO: add following (after filesize?):
-                # <v1:externalRepositoryState>STORED</v1:externalRepositoryState>
-                # <!-- Storage name defined in Pure -->
-                # <v1:source>eprints name</v1:source>
                 fileContent["#{config.importPrefix}file"] =
                     "_attributes": {
                         id: "#{doc.eprintid}/#{doc.docid}"
