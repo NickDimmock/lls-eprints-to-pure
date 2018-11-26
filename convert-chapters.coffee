@@ -57,8 +57,7 @@ jsonIn.forEach (eprint) ->
         item = {...item, ...lib.createVolume(config, eprint)}
     if eprint.isbn?
         item = {...item, ...lib.createISBN(config, eprint)}
-    if eprint.book_title?
-        item = {...item, ...lib.createHostPublicationTitle(config, eprint)}
+    item = {...item, ...lib.createHostPublicationTitle(config, eprint)}
     if eprint.publisher?
         item = {...item, ...lib.createPublisher(config, eprint)}
     if eprint.series?
