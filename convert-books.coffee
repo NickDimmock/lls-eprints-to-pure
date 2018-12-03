@@ -26,6 +26,8 @@ outputs = []
 # Iterate through eprint items:
 jsonIn.forEach (eprint) ->
 
+    console.log "Processing #{eprint.eprintid}..."
+
     # Main body of details:
     item =
         '_attributes':
