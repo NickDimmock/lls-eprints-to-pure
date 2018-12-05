@@ -5,6 +5,8 @@ createXMLAttributes = require './createXMLAttributes'
 
 module.exports = (config, outputs) ->
 
+    total = outputs.length
+
     # Output file setup
     outputRoot = 'out/' + process.argv[3]
     outputXML = outputRoot + '.xml'
@@ -35,4 +37,4 @@ module.exports = (config, outputs) ->
         if err?
             throw err
         # Success:
-        console.log 'XML file saved.'
+        console.log "XML file saved: #{total} items."
