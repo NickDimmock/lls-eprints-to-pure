@@ -4,7 +4,7 @@ moment = require 'moment'
 
 # Map eprints version to hoa version:
 hoaVersions =
-    'accepted': 'AV'
+    'accepted': 'AM'
     'published': 'VoR'
 
 module.exports = (config, eprint, docs) ->
@@ -82,8 +82,11 @@ module.exports = (config, eprint, docs) ->
                     "#{config.importPrefix}externalRepositoryState": "STORED"
                     "#{config.importPrefix}source": config.eprintsStore
                 if eprint.hoa_version_fcd? and Object.keys(hoaVersions).includes(doc.content)
-                #if false
+                    console.log "in! fcd:"
+                    console.log eprint.hoa_version_fcd
+                    console.log hoaVersions[doc.content]
                     if eprint.hoa_version_fcd is hoaVersions[doc.content]
+                        console.log("match 1!")
                         fileContent["#{config.importPrefix}file"] = {
                             ...fileContent["#{config.importPrefix}file"]
                             ...{
@@ -91,13 +94,13 @@ module.exports = (config, eprint, docs) ->
                             }
                         }
                         if eprint.hoa_date_foa?
+                            console.log "match 2!"
                             fileContent["#{config.importPrefix}file"] = {
                                 ...fileContent["#{config.importPrefix}file"]
                                 ...{
                                   "#{config.importPrefix}accessDate": eprint.hoa_date_foa
                                 }
                            }
-                #fileContent["#{config.importPrefix}link"] = doc.uri
                 files.push fileContent
 
         if files.length

@@ -51,4 +51,5 @@ Example XML:
         <v1:storeContentId>173778</v1:storeContentId>
     </v1:existingStore>
 </v1:existingStores>
+<v1:transferToRepository>true</v1:transferToRepository>
 ###
